@@ -1,17 +1,46 @@
-start = number
+start = Atom
 
-number = float
+//------------------------------------------------------
+// Atom
 
-float = before:integer after:('.' integer)?
-{
-	if (after == null) {
-		return before
-	} else {
-		return parseFloat(before + after.join(''))
-	}
+Atom = Exp / Bool / Text
+
+Exp = Number / "(" operator:Operator " " a:Exp " " b:Exp ")" {
+	return operator(a, b)
 }
 
-integer = num:(('0x')? [0-9a-f]+)
-{
-	return parseInt(num.join(''))
+Bool = "true" { return true }
+		 / "false" { return false }
+
+Text = quote: ('"' .* '"') { return quote.join('') }
+
+Number = Float / Integer
+
+//------------------------------------------------------
+// Operator
+
+Operator
+	= "+" { return (a, b) => a + b }
+	/ "-" { return (a, b) => a - b }
+	/ "*" { return (a, b) => a * b }
+	/ "/" { return (a, b) => a / b }
+
+//------------------------------------------------------
+// number
+
+Float = before:[0-9]* "." after:[0-9]+ {
+	return parseFloat(before.join('') + '.' + after.join(''))
 }
+
+Integer = digits:[0-9]+ {
+	return parseInt(digits.join(''))
+}
+
+Hex = "0x" digits:[0-9]+ {
+	return ParseInt(digits.join(''), 16)
+}
+
+//------------------------------------------------------
+// symbols
+
+QuotationMark = '"'

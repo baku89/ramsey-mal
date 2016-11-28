@@ -21,7 +21,13 @@ rl.prompt()
 
 // produces an abstract syntax tree ast
 function read(code) {
-	return parser.parse(code)
+	try {
+		return parser.parse(code)
+	} catch(e) {
+		console.log(e)
+		console.log(e.message.red)
+		return undefined
+	}
 }
 
 // produces a value
@@ -40,7 +46,6 @@ rl.on('line', (code) => {
 	let value = evaluate(ast, {})
 	let output = print(value)
 
-	// console.log(output.join('').rainbow)
 	console.log(output)
 
 	rl.prompt()
