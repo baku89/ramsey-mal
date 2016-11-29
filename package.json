@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "step-o.js",
-  "scripts": {
-    "test": "node ./step-1.js",
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "devDependencies": {
