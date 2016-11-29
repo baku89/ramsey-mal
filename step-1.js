@@ -9,7 +9,7 @@ require.extensions['.pegjs'] = function (module, filename) {
 	module.exports = fs.readFileSync(filename, 'utf8')
 }
 
-let parser = pegjs.generate(require('./step-1.pegjs'))
+let parser = pegjs.generate(require('./step-2.pegjs'))
 
 const rl = readline.createInterface({
 	input: process.stdin,
