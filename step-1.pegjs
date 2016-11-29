@@ -3,7 +3,7 @@ start = Atom
 //------------------------------------------------------
 // Atom
 
-Atom = Exp / Bool / Text
+Atom = Exp / Bool / String
 
 Exp = Number / "(" operator:Operator " " a:Exp " " b:Exp ")" {
 	return operator(a, b)
@@ -12,9 +12,9 @@ Exp = Number / "(" operator:Operator " " a:Exp " " b:Exp ")" {
 Bool = "true" { return true }
 		 / "false" { return false }
 
-Text = quote: ('"' .* '"') { return quote.join('') }
+String = '"' quote:[^\"]* '"' { return quote.join('') }
 
-Number = Float / Integer
+Number = Hex / Binary / Float / Integer
 
 //------------------------------------------------------
 // Operator
@@ -36,11 +36,10 @@ Integer = digits:[0-9]+ {
 	return parseInt(digits.join(''))
 }
 
-Hex = "0x" digits:[0-9]+ {
-	return ParseInt(digits.join(''), 16)
+Hex = "0x" digits:[0-9a-f]+ {
+	return parseInt(digits.join(''), 16)
 }
 
-//------------------------------------------------------
-// symbols
-
-QuotationMark = '"'
+Binary = "0b" digits:[01]+ {
+	return parseInt(digits.join(''), 2)
+}

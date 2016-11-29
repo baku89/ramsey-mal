@@ -24,8 +24,7 @@ function read(code) {
 	try {
 		return parser.parse(code)
 	} catch(e) {
-		console.log(e)
-		console.log(e.message.red)
+		console.log(e.message)
 		return undefined
 	}
 }
